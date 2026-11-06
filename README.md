@@ -10,6 +10,25 @@ row was recovered.
 
 ## Try the synthetic demo
 
+From an extracted self-contained candidate bundle, keep the whole directory
+together. Windows x64 needs no installed .NET SDK/runtime:
+
+```powershell
+.\drill.exe --version
+.\drill.exe demo "demo output"
+```
+
+Ubuntu 24.04/glibc x64:
+
+```sh
+./drill --version
+./drill demo "demo output"
+```
+
+Native OS prerequisites still apply. This package/configuration is self-contained;
+tests on an existing development host are not an empty-OS installation experiment.
+Source and private local bundles are currently awaiting publication/license approval.
+
 From a source checkout with .NET SDK 10.0.403:
 
 ```sh
