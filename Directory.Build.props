@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetLockFilePath Condition="'$(RuntimeIdentifier)' != ''">$(MSBuildThisFileDirectory)artifacts/runtime-locks/$(RuntimeIdentifier)/$(MSBuildProjectName).lock.json</NuGetLockFilePath>
+    <Version>0.1.0-preview.1</Version>
+    <Copyright>Copyright (c) 2026 Pouria Jamali</Copyright>
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+</Project>
