@@ -1,7 +1,7 @@
 # v0.1.0-preview.1 — first bounded drill
 
-Draft local candidate; public release and original-source license are pending
-explicit owner approval. Do not publish this note as proof that a release exists.
+First MIT-licensed synthetic preview. Verify the exact tag, CI and signed
+checksums before using the Windows x64 or Ubuntu 24.04/glibc x64 bundles.
 
 One compiled synthetic SQLite jobs profile, fresh read-only trial copy,
 integrity/FK/schema/storage-class/range/application checks, JSON and local HTML.

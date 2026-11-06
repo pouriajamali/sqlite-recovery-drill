@@ -1,6 +1,6 @@
 # SQLite Recovery Drill
 
-**Local candidate — not publicly released. Original-source license decision is pending.**
+**First preview: v0.1.0-preview.1.**
 
 Check whether a supplied, closed SQLite artifact matches one known .NET
 application profile. The drill makes a fresh trial copy, checks SQLite structure,
@@ -10,7 +10,8 @@ row was recovered.
 
 ## Try the synthetic demo
 
-From an extracted self-contained candidate bundle, keep the whole directory
+Download a bundle from the [preview release](https://github.com/pouriajamali/sqlite-recovery-drill/releases/tag/v0.1.0-preview.1),
+then [verify its signed checksums](PROVENANCE.md). Keep the whole extracted directory
 together. Windows x64 needs no installed .NET SDK/runtime:
 
 ```powershell
@@ -27,7 +28,7 @@ Ubuntu 24.04/glibc x64:
 
 Native OS prerequisites still apply. This package/configuration is self-contained;
 tests on an existing development host are not an empty-OS installation experiment.
-Source and private local bundles are currently awaiting publication/license approval.
+Windows x64 and Ubuntu 24.04/glibc x64 are the supported preview targets.
 
 From a source checkout with .NET SDK 10.0.403:
 
@@ -114,7 +115,8 @@ failures, late input/copy/sidecar changes, path collisions, owned cleanup failur
 strict child receipt parsing, actual child timeout/pipe flooding, HTML escaping
 and the real CLI demo. Local Windows may lack symbolic-link creation privilege;
 that is reported as a skip without changing security settings. Ubuntu exercises
-those cases. Public exact-commit Windows/Ubuntu CI is pending publication approval.
+those cases. The [Windows/Ubuntu workflow](https://github.com/pouriajamali/sqlite-recovery-drill/actions/workflows/verify.yml)
+tests the exact source and extracted packages; check the run for the selected commit.
 
 ## What this adds
 
@@ -131,7 +133,8 @@ does not replace its separate foreign-key check. See the
 
 Independent synthetic implementation created with AI assistance for Pouria
 Jamali in November 2026. No employer/private/shared implementation, database,
-fixture or proprietary contract is included. Original-source license is pending
-an explicit owner decision; do not treat SSH signing as a distribution license.
-Third-party dependencies retain their own licenses and notices. No NuGet package,
-public release, paid service, customer outreach or deployment has occurred.
+fixture or proprietary contract is included. Original source is distributed under
+the [MIT license](LICENSE). Third-party dependencies retain their own licenses and
+notices. SSH signing establishes provenance under a trusted key, not a separate
+distribution license. This is a downloadable local tool, with no hosted service,
+NuGet-library publication, customer or deployment claim.

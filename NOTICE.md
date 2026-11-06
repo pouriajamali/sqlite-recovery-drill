@@ -1,8 +1,8 @@
 # Notices
 
 Original synthetic implementation: Copyright (c) 2026 Pouria Jamali, created with
-AI assistance. Original-source distribution license is pending an explicit owner
-decision for this local candidate. Signing supplies provenance, not a license,
+AI assistance. Original source is distributed under the MIT license in LICENSE.
+Signing supplies provenance, not a license,
 exclusive ownership guarantee or OS binary signature.
 
 Microsoft.Data.Sqlite / .NET components retain their MIT notices. SQLitePCLRaw

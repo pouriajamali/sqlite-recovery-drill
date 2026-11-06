@@ -14,16 +14,15 @@ identity proof. The key is public; never share or request the private signing ke
 
 ## What is signed
 
-After publication, the example below verifies **v0.1.0-preview.1**. Its
+The example below verifies **v0.1.0-preview.1**. Its
 `SHA256SUMS.txt.sig` is an SSH signature over the exact `SHA256SUMS.txt` bytes in
 the `file` namespace. Verify that signature first, then the chosen archive's hash.
 A matching unsigned hash alone is not authenticated provenance.
 
-This is a local candidate. The v0.1.0-preview.1 commands below describe the
-planned first public preview; that release does not exist yet. Public publication
-requires an explicit owner license decision and independent candidate review.
-A future published preview must have an annotated signed tag and exact-source
-package manifests; do not treat this draft as evidence of publication.
+Use the [release page](https://github.com/pouriajamali/sqlite-recovery-drill/releases/tag/v0.1.0-preview.1)
+and its exact tag/commit when selecting assets. An annotated signed tag and
+exact-source package manifests accompany public previews. Missing assets or a
+missing checksum signature are an incomplete publication; do not skip verification.
 
 New release policy: sign commits and annotated release tags with the known key,
 sign checksums of the actual distributed assets, and retain the public key,
@@ -37,8 +36,9 @@ SSH provenance and GitHub's Verified status do not mean Windows Authenticode or
 another OS binary signature. Application binaries remain unsigned. A valid
 signature establishes integrity under the trusted key; it does not prove runtime
 safety, production suitability or exclusive ownership, and does not prevent copying.
-The original-source license decision is pending; no distribution permission is
-inferred from signing. Preserve original copyright and upstream attribution.
+The original source uses the MIT license in LICENSE; distribution permission is
+governed by that license, not inferred from signing. Preserve original copyright
+and upstream attribution.
 Existing licenses in other portfolio repositories are not changed by this tool.
 
 ## POSIX shell
