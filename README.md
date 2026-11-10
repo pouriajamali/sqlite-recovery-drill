@@ -138,3 +138,5 @@ the [MIT license](LICENSE). Third-party dependencies retain their own licenses a
 notices. SSH signing establishes provenance under a trusted key, not a separate
 distribution license. This is a downloadable local tool, with no hosted service,
 NuGet-library publication, customer or deployment claim.
+
+[CI resource policy](docs/CI-POLICY.md): documentation-only changes get real lightweight document/pipeline checks; source, tag and manual runs retain native validation. Published runtime tags and release assets remain unchanged.
