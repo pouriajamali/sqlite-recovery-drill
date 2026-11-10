@@ -140,3 +140,9 @@ distribution license. This is a downloadable local tool, with no hosted service,
 NuGet-library publication, customer or deployment claim.
 
 [CI resource policy](docs/CI-POLICY.md): documentation-only changes get real lightweight document/pipeline checks; source, tag and manual runs retain native validation. Published runtime tags and release assets remain unchanged.
+
+## Source readability
+
+The current source expands compact C# layout for review. The published preview links identify its frozen runtime release. Formatting preserves complete syntax, token text and values, comments and directives; it does not introduce a runtime behavior or performance claim.
+
+To reproduce a published package, use its exact original runtime source: [v0.1.0-preview.1 source](https://github.com/pouriajamali/sqlite-recovery-drill/tree/003b700d2a88134d15109f44da793e0cbd83b09b) (`003b700d2a88134d15109f44da793e0cbd83b09b`). Later `main` layout is reviewed separately from those frozen release commits.

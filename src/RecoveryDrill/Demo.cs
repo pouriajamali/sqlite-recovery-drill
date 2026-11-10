@@ -1,14 +1,15 @@
 using Microsoft.Data.Sqlite;
 
 namespace RecoveryDrill;
-
 internal static class Demo
 {
     internal static readonly string[] Cases = ["valid", "stale-valid", "foreign-key", "null-value", "text-integer", "blob-integer", "real-integer", "range", "bad-status", "batch-count", "schema-version", "truncated", "corrupt-page"];
     internal static void Create(string path, string name)
     {
-        if (!Cases.Contains(name, StringComparer.Ordinal)) throw new ArgumentException("Unknown synthetic fixture");
-        if (File.Exists(path) || Directory.Exists(path)) throw new IOException("Fresh fixture required");
+        if (!Cases.Contains(name, StringComparer.Ordinal))
+            throw new ArgumentException("Unknown synthetic fixture");
+        if (File.Exists(path) || Directory.Exists(path))
+            throw new IOException("Fresh fixture required");
         long jobPage = 0, pageSize = 0;
         using (var connection = new SqliteConnection(new SqliteConnectionStringBuilder { DataSource = path, Pooling = false }.ToString()))
         {
@@ -30,35 +31,58 @@ internal static class Demo
                 "schema-version" => "PRAGMA user_version=2;",
                 _ => ""
             };
-            if (sql.Length > 0) Inspector.Execute(connection, sql);
+            if (sql.Length > 0)
+                Inspector.Execute(connection, sql);
             if (name == "corrupt-page")
             {
-                using var page = connection.CreateCommand(); page.CommandText = "SELECT rootpage FROM sqlite_schema WHERE name='jobs';"; jobPage = (long)page.ExecuteScalar()!;
-                page.CommandText = "PRAGMA page_size;"; pageSize = (long)page.ExecuteScalar()!;
+                using var page = connection.CreateCommand();
+                page.CommandText = "SELECT rootpage FROM sqlite_schema WHERE name='jobs';";
+                jobPage = (long)page.ExecuteScalar()!;
+                page.CommandText = "PRAGMA page_size;";
+                pageSize = (long)page.ExecuteScalar()!;
             }
         }
-        if (name == "truncated") using (var file = new FileStream(path, FileMode.Open, FileAccess.Write, FileShare.None)) file.SetLength(100);
+
+        if (name == "truncated")
+            using (var file = new FileStream(path, FileMode.Open, FileAccess.Write, FileShare.None))
+                file.SetLength(100);
         if (name == "corrupt-page")
         {
             // SQLite b-tree header byte7 is fragmented free-byte count, at most60.
             // Only this fresh synthetic fixture is damaged; no input repair API exists.
             using var file = new FileStream(path, FileMode.Open, FileAccess.Write, FileShare.None);
-            file.Position = checked((jobPage - 1) * pageSize + 7); file.WriteByte(255);
+            file.Position = checked((jobPage - 1) * pageSize + 7);
+            file.WriteByte(255);
         }
     }
+
     internal static async Task<int> RunAsync(string directory)
     {
-        string root = Drill.LocalPath(directory); Drill.NoLinks(root);
-        if (Directory.Exists(root) || File.Exists(root)) throw new DrillFailure("OUTPUT_EXISTS");
+        string root = Drill.LocalPath(directory);
+        Drill.NoLinks(root);
+        if (Directory.Exists(root) || File.Exists(root))
+            throw new DrillFailure("OUTPUT_EXISTS");
         Directory.CreateDirectory(root);
-        foreach (string name in new[] { "valid", "foreign-key", "null-value", "batch-count", "stale-valid" })
+        foreach (string name in new[]
         {
-            string source = Path.Combine(root, name + ".sqlite"); Create(source, name);
+            "valid",
+            "foreign-key",
+            "null-value",
+            "batch-count",
+            "stale-valid"
+        }
+
+        )
+        {
+            string source = Path.Combine(root, name + ".sqlite");
+            Create(source, name);
             RunReport result = await Drill.CheckAsync(source, Path.Combine(root, name + " report"));
             int expected = name is "valid" or "stale-valid" ? 0 : 2;
             Console.WriteLine($"{name}: {result.Outcome}; exit {result.ExitCode}; expected {expected}; freshness NOT_CHECKED");
-            if (result.ExitCode != expected || !result.Complete) return 1;
+            if (result.ExitCode != expected || !result.Complete)
+                return 1;
         }
+
         Console.WriteLine("DEMO PASS: five synthetic snapshots checked. Read each report.html with its summary.json. No backup, repair, live source or freshness proof.");
         return 0;
     }
