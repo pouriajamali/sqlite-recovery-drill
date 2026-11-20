@@ -13,6 +13,9 @@ def main():
   f=package/item['path'];assert not f.is_symlink() and f.stat().st_size==item['bytes'] and sha(f)==item['sha256']
  assert a.commit.encode() in (package/'drill.dll').read_bytes()
  config=json.loads((package/'drill.runtimeconfig.json').read_text())['runtimeOptions'];assert 'includedFrameworks' in config and 'frameworks' not in config
+ assert config['includedFrameworks']==[{'name':'Microsoft.NETCore.App','version':'10.0.15'}]
+ dependencies=json.loads((package/'DEPENDENCIES.json').read_text())['packages']
+ assert any(d['id']=='Microsoft.Data.Sqlite' and d['version']=='10.0.15' for d in dependencies)
  exe=package/('drill.exe' if os.name=='nt' else 'drill');assert exe.is_file()
  if os.name=='nt':assert exe.read_bytes()[:2]==b'MZ'
  else:assert exe.read_bytes()[:4]==b'\x7fELF'
@@ -27,7 +30,8 @@ def main():
  demo=work/'demo with spaces';assert 'DEMO PASS' in run('demo',['demo',demo],0).stdout
  for name,code in [('valid',0),('foreign-key',2),('null-value',2),('batch-count',2),('stale-valid',0)]:
   report=demo/(name+' report');r=json.loads((report/'summary.json').read_text());assert r['exitCode']==code and r['complete'] and r['freshness']==r['externalCompleteness']=='NOT_CHECKED'
-  html=(report/'report.html').read_text();assert '<!doctype html>' in html and "default-src 'none'" in html and '<script' not in html and 'https://' not in html
+  html=(report/'report.html').read_text(encoding='utf-8');assert '<!doctype html>' in html and "default-src 'none'" in html and '<script' not in html and 'https://' not in html
+  assert ' · ' in html
   assert str(work) not in json.dumps(r) and not (report/'trial.sqlite').exists();checks.append('reports-'+name)
  source=demo/'valid.sqlite';before=sha(source)
  r=run('single-check',['check',source,work/'single report','--profile','synthetic-jobs-v1'],0);assert json.loads(r.stdout)['outcome']=='pass' and sha(source)==before

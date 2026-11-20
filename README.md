@@ -1,6 +1,6 @@
 # SQLite Recovery Drill
 
-**First preview: v0.1.0-preview.1.**
+**Servicing preview: v0.1.0-preview.2.**
 
 Check whether a supplied, closed SQLite artifact matches one known .NET
 application profile. The drill makes a fresh trial copy, checks SQLite structure,
@@ -10,7 +10,7 @@ row was recovered.
 
 ## Try the synthetic demo
 
-Download a bundle from the [preview release](https://github.com/pouriajamali/sqlite-recovery-drill/releases/tag/v0.1.0-preview.1),
+Download a bundle from the [preview release](https://github.com/pouriajamali/sqlite-recovery-drill/releases/tag/v0.1.0-preview.2),
 then [verify its signed checksums](PROVENANCE.md). Keep the whole extracted directory
 together. Windows x64 needs no installed .NET SDK/runtime:
 
@@ -30,7 +30,7 @@ Native OS prerequisites still apply. This package/configuration is self-containe
 tests on an existing development host are not an empty-OS installation experiment.
 Windows x64 and Ubuntu 24.04/glibc x64 are the supported preview targets.
 
-From a source checkout with .NET SDK 10.0.403:
+From a source checkout with .NET SDK 10.0.404:
 
 ```sh
 dotnet run --project src/RecoveryDrill -c Release -- demo "demo output"
@@ -115,8 +115,9 @@ failures, late input/copy/sidecar changes, path collisions, owned cleanup failur
 strict child receipt parsing, actual child timeout/pipe flooding, HTML escaping
 and the real CLI demo. Local Windows may lack symbolic-link creation privilege;
 that is reported as a skip without changing security settings. Ubuntu exercises
-those cases. The [Windows/Ubuntu workflow](https://github.com/pouriajamali/sqlite-recovery-drill/actions/workflows/verify.yml)
-tests the exact source and extracted packages; check the run for the selected commit.
+those cases. The servicing release is validated locally on Windows and Ubuntu with real resource
+caps and extracted-package checks. GitHub Actions was NOT_RUN by owner instruction;
+local results are not CI evidence.
 
 ## What this adds
 
@@ -145,4 +146,12 @@ NuGet-library publication, customer or deployment claim.
 
 The current source expands compact C# layout for review. The published preview links identify its frozen runtime release. Formatting preserves complete syntax, token text and values, comments and directives; it does not introduce a runtime behavior or performance claim.
 
-To reproduce a published package, use its exact original runtime source: [v0.1.0-preview.1 source](https://github.com/pouriajamali/sqlite-recovery-drill/tree/003b700d2a88134d15109f44da793e0cbd83b09b) (`003b700d2a88134d15109f44da793e0cbd83b09b`). Later `main` layout is reviewed separately from those frozen release commits.
+To reproduce the original preview.1 package, use its exact frozen source: [v0.1.0-preview.1 source](https://github.com/pouriajamali/sqlite-recovery-drill/tree/003b700d2a88134d15109f44da793e0cbd83b09b) (`003b700d2a88134d15109f44da793e0cbd83b09b`). Later `main` layout is reviewed separately from those frozen release commits.
+
+## Servicing preview.2
+
+Uses .NET SDK 10.0.404, bundled runtime 10.0.15 and Microsoft.Data.Sqlite 10.0.15.
+The target remains net10.0 and the compiled synthetic profile, report schema, exit
+codes, read-only trial and NOT_CHECKED freshness/completeness boundary are unchanged.
+The original preview.1 tag, packages and signatures remain frozen. See
+[servicing notes](docs/RELEASE-v0.1.0-preview.2.md).

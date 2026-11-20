@@ -12,7 +12,7 @@ def main():
  version=ET.parse(ROOT/'Directory.Build.props').findtext('.//Version');assert version
  if not a.local_candidate:assert (ROOT/'LICENSE').is_file(),'Explicit original-source license required before distribution'
  work=a.work.resolve();work.mkdir(parents=True,exist_ok=False);a.out.mkdir(parents=True,exist_ok=True)
- published=work/'published';command=[a.dotnet,'publish','src/RecoveryDrill/RecoveryDrill.csproj','-c','Release','-r',a.rid,'--self-contained','true','-p:RuntimeFrameworkVersion=10.0.14','-p:PublishTrimmed=false','-p:PublishAot=false','-p:PublishReadyToRun=false','-p:DebugType=None','-p:DebugSymbols=false','-p:SourceRevisionId='+a.commit,'-o',str(published)]
+ published=work/'published';command=[a.dotnet,'publish','src/RecoveryDrill/RecoveryDrill.csproj','-c','Release','-r',a.rid,'--self-contained','true','-p:RuntimeFrameworkVersion=10.0.15','-p:PublishTrimmed=false','-p:PublishAot=false','-p:PublishReadyToRun=false','-p:DebugType=None','-p:DebugSymbols=false','-p:UseSharedCompilation=false','-p:BuildInParallel=false','-p:SourceRevisionId='+a.commit,'-o',str(published)]
  if a.source:command+=['--source',a.source,'-p:NuGetAudit=false']
  with (work/'publish.log').open('wb') as log:subprocess.run(command,cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=240)
  assert not git('status','--porcelain'),'Build modified source'
@@ -35,11 +35,11 @@ def main():
    if f.is_file() and (f.name.upper().startswith('LICENSE') or f.name.upper().startswith('THIRD-PARTY-NOTICES')):shutil.copy2(f,licenses/(package_id+'-'+f.name))
  # SDK runtime packs are download dependencies and may be absent from libraries.
  runtime_id='Microsoft.NETCore.App.Runtime.'+a.rid
- runtime_pack=next(folder/runtime_id.lower()/'10.0.14' for folder in folders if (folder/runtime_id.lower()/'10.0.14').is_dir())
+ runtime_pack=next(folder/runtime_id.lower()/'10.0.15' for folder in folders if (folder/runtime_id.lower()/'10.0.15').is_dir())
  notices=[f for f in runtime_pack.iterdir() if f.is_file() and (f.name.upper().startswith('LICENSE') or f.name.upper().startswith('THIRD-PARTY-NOTICES'))]
  assert any(f.name.upper().startswith('LICENSE') for f in notices) and any(f.name.upper().startswith('THIRD-PARTY-NOTICES') for f in notices),'Runtime redistribution notices required'
  for f in notices:shutil.copy2(f,licenses/(runtime_id+'-'+f.name))
- if runtime_id.lower() not in {d['id'].lower() for d in dependencies}:dependencies.append({'id':runtime_id,'version':'10.0.14','license':'MIT','copyright':'.NET Foundation and contributors; see bundled runtime notices'})
+ if runtime_id.lower() not in {d['id'].lower() for d in dependencies}:dependencies.append({'id':runtime_id,'version':'10.0.15','license':'MIT','copyright':'.NET Foundation and contributors; see bundled runtime notices'})
  (package/'DEPENDENCIES.json').write_text(json.dumps({'packages':dependencies,'sqlite':'SQLite core is public domain; SQLitePCLRaw wrappers retain their package notices.','runtime':'Bundled .NET runtime retains Microsoft/.NET Foundation notices.'},indent=2)+'\n',encoding='utf-8')
  config=json.loads((package/'drill.runtimeconfig.json').read_text())['runtimeOptions'];assert 'includedFrameworks' in config and 'frameworks' not in config
  files=[]

@@ -16,7 +16,7 @@ internal static class Results
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
         WriteIndented = true
     };
-    internal static string Version => typeof(Results).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.1.0-preview.1";
+    internal static string Version => typeof(Results).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? "0.1.0-preview.2";
 
     internal static CheckResult[] Unchecked() => Ids.Select(id => new CheckResult(id, "not_checked", "PREREQUISITE_NOT_MET")).ToArray();
     internal static string Serialize<T>(T value) => JsonSerializer.Serialize(value, Json);
